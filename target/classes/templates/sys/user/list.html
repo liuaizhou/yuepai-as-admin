@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+   <meta charset="utf-8" />
+   <title>$!pageTitle</title>
+   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+   <meta content="" name="description" />
+   <meta content="Mosaddek" name="author" />
+   #parse("/common/header_resource.html")
+</head>
+<body class="fixed-top">
+	#parse("/common/header.html")
+	<div id="container" class="row-fluid">
+		#parse("/common/menu.html")
+		<div id="main-content">
+			<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<h3 class="page-title"></h3>
+					<ul class="breadcrumb">
+						<li>系统管理<span class="divider">/</span></li>
+						<li class="active">用户管理</li>
+					</ul>
+				</div>
+			</div>
+            
+            <!-- BEGIN PAGE CONTENT-->
+            <div class="row-fluid">
+            	<div class="span12">
+	                <!-- BEGIN EXAMPLE TABLE widget-->
+	                <div class="widget">
+	                    <div class="widget-body">
+	                    	<form action="${context_path}/sys/user/list" id="sys_user_search_form" class="hidden-phone" method="post">
+                               <div class="input-append search-input-area">
+                               	   <input class="search_input" name="account" value="$!searchBean.account" type="text" placeholder="帐号" >
+                              	   <input class="search_input" name="name" value="$!searchBean.name" type="text" placeholder="姓名" >
+                              	   <input class="search_input" name="mobile" value="$!searchBean.mobile" type="text" placeholder="手机号码" >
+                               	   <input type="hidden" name="page" value="$!searchResultList.paginator.page" id="sys_user_search_page" />
+                               	   <input type="hidden" name="pageSize" value="$!searchResultList.paginator.limit"/>
+                                   <button class="btn" style="margin-left: 1px;" onclick="$('#sys_user_search_page').val(1);" type="submit"><i class="icon-search search_button"></i> </button>
+                               </div>
+                           	</form>
+                           	<div class="btn-group">
+							   	<a class="btn btn-primary" id="sys_user_add">添加用户<i class="icon-plus"></i></a>&nbsp;
+							</div>
+	                        <table class="table table-striped table-bordered" style="margin-top:10px;" id="sample_1_nopage">
+	                            <thead>
+	                            <tr>
+	                                <th>编号</th>
+	                                <th>姓名</th>
+	                                <th>登录帐号</th>
+	                                <th>手机号码</th>
+	                                <th>最后修改时间</th>
+	                                <th>最后修改人</th>
+	                                <th>操作</th>
+	                            </tr>
+	                            </thead>
+	                            <tbody>
+	                            	#set($num = 0)
+                            		#foreach($user in $searchResultList)
+                            		#set($num = $num+1)
+                           				<tr>
+			                                <td>$num</td>
+			                                <td>$!user.name</td>
+			                                <td>$!user.account</td>
+			                                <td>$!user.mobile</td>
+			                                <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!user.updatedDate)</td>
+			                                <td>$!user.updatedBy</td>
+			                                <td>
+			                                	<a class="btn btn-primary" role="button" data-toggle="modal" title="添加菜单" 
+			                                		onclick="addUserMeun('$!{user.id}','$!{user.name}')">
+													<i class="icon-tags"></i>
+												</a>
+			                                	<a class="btn btn-primary" role="button" data-toggle="modal" title="编辑" 
+			                                		onclick="editSysUser('$!{user.id}','$!{user.name}','$!{user.account}','$!{user.mobile}')">
+													<i class="icon-edit"></i>
+												</a>
+												<a class="btn btn-danger" role="button" data-toggle="modal" onclick="removeSysUser('$!{user.id}')" title="删除">
+													<i class="icon-remove"></i>
+												</a>													
+			                                </td>
+			                            </tr>
+		                        	#end
+	                            </tbody>
+	                        </table>
+	                         #parse("/common/pager.html")
+	                    </div>
+	                </div>
+	                <!-- END EXAMPLE TABLE widget-->
+                </div>
+            </div>
+            
+         </div>
+         <!-- END PAGE CONTAINER-->
+      </div>
+      <!-- END PAGE -->  
+   </div>
+   
+   <div id="sys_user_save_div" class="modal hide fade" tabindex="-1" aria-labelledby="sys_user_save_label" role="dialog" aria-hidden="true">  
+       <div class="modal-header">  
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>  
+           <h3 id="sys_user_save_label">用户信息-编辑</h3>  
+       </div>  
+       <div class="modal-body">  
+          <div class="widget green">
+          	<div class="widget-body">
+          		<form action="#" name="4a_admin_sys_user_form" class="form-horizontal" id="sys_user_save_form">
+          			<div class="control-group">
+                         <label class="control-label">姓名:</label>
+                         <div class="controls">
+                             <input type="text" id="name_form" name="name" must="1" class="input-large">
+                             <span class="help-inline">*</span>
+                         </div>
+                    </div>
+          			<div class="control-group">
+                         <label class="control-label">登录帐号:</label>
+                         <div class="controls">
+                             <input type="text" id="account_form" name="account" autocomplete="off" pwd="1" must="1" class="input-large">
+                             <span class="help-inline">* 2-32位字母/数字</span>
+                         </div>
+                    </div>
+          			<div class="control-group">
+                         <label class="control-label">密码:</label>
+                         <div class="controls">
+                             <input type="password" id="password_form" autocomplete="off"  name="password" pwd="1" must="1" class="input-large">
+                             <span class="help-inline">* 2-32位字母/数字</span>
+                         </div>
+                    </div>
+                    <div class="control-group">
+                         <label class="control-label">手机号码:</label>
+                         <div class="controls">
+                             <input type="text" id="mobile_form" name="mobile" mobile="1" class="input-large">
+                         </div>
+                    </div>
+                    <input type="hidden" name="id" id="id_form" />
+          		</form>
+          	</div>
+          </div>
+       </div>  
+       <div class="modal-footer">
+           <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>  
+           <button class="btn btn-primary" id="sys_user_save_btn">保存</button>  
+       </div>  
+   </div>
+   
+   <div id="sys_user_removeconfirm_div" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="msgBoxModalLabel" aria-hidden="true">  
+		<div class="modal-header">  
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>  
+		    <h3 id="msgBoxModalLabel">你确认要删除此用户？</h3>  
+		</div>         
+		<div class="modal-footer">  
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>  
+		    <button class="btn btn-primary" id="sys_user_removeconfirm_btn">确定</button>  
+		</div>
+		<input style="display: none;" id="sys_user_remove_id" />
+	</div>
+   
+   <!-- BEGIN FOOTER -->
+   #parse("/common/footer_resource.html")
+<script type="text/javascript">
+   
+//时间控件
+//format: 'yyyy-mm-dd HH:ii:ss',
+$(".form_datetime").datetimepicker ({
+ 	format: 'yyyy-mm-dd',
+    weekStart: 0,
+	startView: 2,
+	minView: 2,
+	autoclose: true
+});
+   
+$(function() {
+   $("#sys_user_add").click(function() {
+	   	$("#sys_user_save_label").text("用户-新增");
+		$("#id_form").val("");
+		$("#sys_user_save_form")[0].reset();
+		$("#account_form").removeAttr("readonly");
+		$("#sys_user_save_div").modal('show');
+   });
+   
+   $("#sys_user_removeconfirm_btn").click(function() {
+		var id = $("#sys_user_remove_id").val();
+		jQuery.ajax({
+			type : "POST",
+			data : {id : id},
+			url : "${context_path}/sys/user/delete",
+			dataType : "json",
+			success : function(data) {
+				$("#sys_user_removeconfirm_div").modal('hide');
+				if (data.code == "0") {
+					alert("删除成功!");
+					window.location.href = "${context_path}/sys/user/list";
+				} else {
+					alert(data.msg);
+				}
+			},
+			error : function(data) {
+				alert("删除异常，请联系管理员!");
+				$("#sys_user_removeconfirm_div").modal("hide");
+			}
+		});
+	});
+   
+   $("#sys_user_save_btn").click(function (){
+	   var formObj = $("#sys_user_save_form");
+	   if(form_valid(formObj)){
+			jQuery.ajax({
+				type : "POST",
+				data : formObj.serialize(),
+				url : "${context_path}/sys/user/modify",
+				dataType : "json",  
+				success : function(data) {
+					if (data.code == "0") {
+						alert("保存成功!");
+						$("#sys_user_save_div").modal('hide');
+						window.location.href = "${context_path}/sys/user/list";
+					} else {
+						alert(data.msg);
+					}
+				},
+				error : function(data) {
+					alert("保存异常，请联系管理员!");
+				}
+			});
+		}
+	   	return false;
+	});
+   
+});
+
+function editSysUser(id, name, account, mobile) {
+	$("#sys_user_save_label").text("用户-编辑");
+	$("#sys_user_save_form")[0].reset();
+	$("#id_form").val(id);
+	$("#name_form").val(name);
+	$("#account_form").val(account);
+	$("#mobile_form").val(mobile);
+	$("#account_form").attr("readonly", "readonly");
+	$("#sys_user_save_div").modal('show');
+}
+
+function removeSysUser(id) {
+	$("#sys_user_remove_id").val(id);
+	$("#sys_user_removeconfirm_div").modal("show");
+}
+
+function addUserMeun(id,name){
+	window.location.href = "${context_path}/sys/user/showUserMeun?id="+id+"&name="+name;
+}
+
+function jumpPage(page, jumpPage) {
+	$("#sys_user_search_page").val(parseInt(page) + parseInt(jumpPage));
+	$("#sys_user_search_form").submit();
+}
+
+</script>
+</body>
+<!-- END BODY -->
+</html>

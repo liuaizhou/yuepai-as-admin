@@ -1,0 +1,352 @@
+.page-content {
+    background: #fff none repeat scroll 0 0;
+    margin: 0;
+    padding: 8px 20px 24px;
+}
+.row {
+    margin-left: 0px;
+}
+
+.widget-body {
+	border:1px solid #CCC;
+	border-top:0;
+	background-color:#FFF
+}
+.widget-main {
+	padding:12px
+}
+.widget-main.padding-32 {
+	padding:32px
+}
+.widget-main.padding-30 {
+	padding:30px
+}
+.widget-main.padding-28 {
+	padding:28px
+}
+.widget-main.padding-26 {
+	padding:26px
+}
+.widget-main.padding-24 {
+	padding:24px
+}
+.widget-main.padding-22 {
+	padding:22px
+}
+.widget-main.padding-20 {
+	padding:20px
+}
+.widget-main.padding-18 {
+	padding:18px
+}
+.widget-main.padding-16 {
+	padding:16px
+}
+.widget-main.padding-14 {
+	padding:14px
+}
+.widget-main.padding-12 {
+	padding:12px
+}
+.widget-main.padding-10 {
+	padding:10px
+}
+.widget-main.padding-8 {
+	padding:8px
+}
+.widget-main.padding-6 {
+	padding:6px
+}
+.widget-main.padding-4 {
+	padding:4px
+}
+.widget-main.padding-2 {
+	padding:2px
+}
+.widget-main.padding-0 {
+	padding:0
+}
+.widget-main.no-padding {
+	padding:0
+}
+
+.weixinbox {
+    overflow: hidden;
+}
+
+.wxLeft {
+    height: 100%;
+    left: 229px;
+    position: absolute;
+    top: 208px;
+    width: 280px;
+}
+.widget-box {
+    border-bottom: 1px solid #ccc;
+    box-shadow: none;
+    margin: 3px 0;
+    padding: 0;
+}
+
+.widget-header::before, .widget-header::after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+
+.widget-header::after {
+    clear: right;
+}
+.widget-header::before, .widget-header::after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+
+.widget-header-small > .widget-caption, .widget-header-small > *:first-child {
+    line-height: 30px;
+}
+.widget-header > .widget-caption, .widget-header > *:first-child {
+    display: inline;
+    line-height: 36px;
+    margin: 0;
+    padding: 0;
+}
+.mp0 {
+    margin: 0;
+    padding: 0;
+}
+.wxCdList, .twoList {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+
+
+
+.oneList {
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    list-style: outside none none;
+}
+.twoList li{
+	list-style: outside none none;
+}
+
+.oneList ins, .twoList li ins {
+    display: block;
+    height: 36px;
+    line-height: 36px;
+    text-decoration: none;
+}
+.oneList > ins {
+    padding-left: 25px;
+}
+.twoList li ins {
+    padding-left: 40px;
+}
+.oneList > ins {
+    background: rgba(0, 0, 0, 0) url("../img/wxb.png") no-repeat scroll 12px 13px;
+    display: block;
+    line-height: 36px;
+    position: relative;
+}
+.oneList ins, .twoList li ins {
+    display: block;
+    height: 36px;
+    line-height: 36px;
+    text-decoration: none;
+}
+
+.oneList .wxListToole {
+    height: 25px;
+    line-height: 25px;
+    padding: 4px;
+    width: 70px;
+}
+.oneList .wxListToole, .oneList .moveBox {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 5px;
+    z-index: 1;
+}
+.oneList .moveBox {
+    width: 25px;
+}
+.oneList .wxListToole, .oneList .moveBox {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 5px;
+    z-index: 1;
+}
+.oneList .wxListToole i, .oneList .moveBox i {
+     color: #000;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 400;
+    height: 15px;
+    line-height: 15px;
+    margin-left: 2px;
+    text-align: center;
+    width: 19px;
+}
+
+.oneList ins:hover .wxListToole , .wxCdList > li.current .wxListToole{
+	display:block ;
+}
+.wxCdList ins.current .wxListToole{
+	display:block;
+}
+.oneList ins:hover , .twoList li:hover{
+	background-color:#dae8f8;
+}
+.twoList li ins .wxListToole{
+	width:50px;
+}
+.oneList .wxListToole{
+	/*background-color:#fff;*/
+	padding:4px;
+	width:70px;
+	height:25px;
+	line-height:25px;
+}
+.oneList .wxListToole , .oneList .moveBox{
+	position:absolute;
+	top:5px;
+	right:20px;
+	z-index:1;
+	display:none;
+}
+
+
+.twoList li ins {
+    position: relative;
+}
+
+
+.wxRight {
+    height: 100%;
+    margin: 0 0 0 280px;
+}
+
+
+.widget-header-small {
+    min-height: 31px;
+    padding-left: 10px;
+}
+.widget-header-flat {
+    background: #f7f7f7 none repeat scroll 0 0;
+}
+.widget-header {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: #f7f7f7 linear-gradient(to bottom, #fff 0px, #eee 100%) repeat-x scroll 0 0;
+    border-color: #ccc #ccc #ddd;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: content-box;
+    color: #669fc7;
+    min-height: 38px;
+    padding-left: 12px;
+    position: relative;
+}
+
+.commonR {
+    display: none;
+}
+.tc {
+    text-align: center;
+}
+
+.mt200 {
+    margin-top: 200px;
+}
+.setLocation .ml100 {
+    margin-left: 0;
+}
+.setLocation .ml100 > p {
+    padding-left: 100px;
+}
+.mt40 {
+    margin-top: 40px;
+}
+.setLocation .mt200 {
+    margin-top: 50px;
+}
+
+.nav-tabs {
+    border-color: #c5d0dc;
+    margin-bottom: 0;
+    margin-left: 0;
+    position: relative;
+    top: 1px;
+}
+.tab-content {
+    border: 1px solid #c5d0dc;
+    padding: 16px 12px;
+    position: relative;
+    z-index: 11;
+}
+.mt30 {
+    margin-top: 30px;
+}
+#text, .commonBoxs {
+    margin-bottom: 42px;
+    padding: 16px 12px;
+    position: relative;
+}
+
+#randomMessageBox {
+    height: 600px;
+    max-height: 600px;
+    min-height: 600px;
+    overflow: auto;
+}
+.wx_fbBox {
+    margin-top: 15px;
+}
+
+
+.rightMenu a {
+    display: inline-block;
+    margin: 0 10px;
+    width: 139px;
+    border: 0 none;
+    font-variant: normal;
+}
+.rightMenu a:hover {
+   text-decoration:none;
+}
+.rightMenu a span {
+    color: #000;
+}
+
+
+
+.actionValue {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.wxCdList ins.current {
+    background-color: #dae8f8;
+}
+.wxLeft .ui-state-highlight{
+	list-style: outside none none;
+}
+.wxLeft .ui-state-highlight{
+	height: 40px; 
+	line-height: 40px;
+	border:1px dashed #ccc;
+}

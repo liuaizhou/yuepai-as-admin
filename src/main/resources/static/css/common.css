@@ -1,0 +1,9 @@
+
+.hide{ visibility: hidden; }
+
+.search_select {
+	width: 180px;
+	height: 36px;
+	background: #E5E5E5;
+	margin-left: 10px;
+}

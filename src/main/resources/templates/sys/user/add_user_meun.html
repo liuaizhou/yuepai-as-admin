@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+   <meta charset="utf-8" />
+   <title>$!pageTitle</title>
+   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+   <meta content="" name="description" />
+   <meta content="Mosaddek" name="author" />
+	<link rel="stylesheet" href="${context_path}/css/zTreeStyle/zTreeStyle.css" type="text/css">
+   #parse("/common/header_resource.html")
+</head>
+<body class="fixed-top">
+	#parse("/common/header.html")
+	<div id="container" class="row-fluid">
+		#parse("/common/menu.html")
+		<div id="main-content">
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<h3 class="page-title"></h3>
+						<ul class="breadcrumb">
+							<li>后台管理<span class="divider">/</span></li>
+							<li class="active">添加用户菜单</li>
+						</ul>
+					</div>
+				</div>
+      		</div>
+      		<div class="row-fluid">
+            	<div class="span12">
+	                <!-- BEGIN EXAMPLE TABLE widget-->
+                   	<div class="btn-group" style="margin:0px 0px 10px 20px;width:100px;">
+					   	<a class="btn btn-primary" href="javascript:addUserMeun();">确定<i class="icon-plus"></i></a>&nbsp;
+					</div>
+	                <div class="widget">
+	                    <div class="widget-body">
+	                    	<div class="control-group">
+		                         <label class="control-label">用户:</label>
+		                         <div class="controls">
+		                         	<input type="text" value="$!user.name" />
+		                         	<input id="user_id" type="hidden" value="$!user.id" />
+		                         </div>
+		                    </div>
+	                    	<div class="control-group">
+		                         <label class="control-label">请选择菜单(可选多个):</label>
+		                         <div class="controls">
+									<ul id="tree" class="ztree"></ul>
+		                         </div>
+		                    </div>
+	                    </div>
+                    </div>
+                </div>
+            </div>
+      <!-- END PAGE -->  
+   </div>
+   <!-- BEGIN FOOTER -->
+   #parse("/common/footer_resource.html")
+</body>
+<script src="${context_path}/bootstrap/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="${context_path}/js/zTree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${context_path}/js/zTree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript">
+	var setting = {
+		check: {
+			enable: true,
+		},
+		data: {
+			simpleData: {
+				enable: true
+			}
+		}
+	};
+	function disabledNode(e) {
+		var zTree = $.fn.zTree.getZTreeObj("tree"),
+		disabled = e.data.disabled,
+		nodes = zTree.getSelectedNodes(),
+		inheritParent = false, inheritChildren = false;
+		if (nodes.length == 0) {
+			alert("请先选择一个节点");
+		}
+		if (disabled) {
+			inheritParent = $("#py").attr("checked");
+			inheritChildren = $("#sy").attr("checked");
+		} else {
+			inheritParent = $("#pn").attr("checked");
+			inheritChildren = $("#sn").attr("checked");
+		}
+
+		for (var i=0, l=nodes.length; i<l; i++) {
+			zTree.setChkDisabled(nodes[i], disabled, inheritParent, inheritChildren);
+		}
+	}
+
+	$(document).ready(function(){
+		$.ajax({
+            type: "POST",
+            url: "${context_path}/sys/user/findMeunList",
+            data:{"userId":$("#user_id").val()},
+            dataType: "json",
+            success: function(data) {
+				$.fn.zTree.init($("#tree"), setting, data.meunList);
+				$("#disabledTrue").bind("click", {disabled: true}, disabledNode);
+				$("#disabledFalse").bind("click", {disabled: false}, disabledNode);
+            }
+        });
+	});
+	function addUserMeun(){
+		var meunId = [];
+		var userId = $('#user_id').val();
+		var nodes = $.fn.zTree.getZTreeObj("tree").getCheckedNodes(true);
+        for(var i=0;i<nodes.length;i++){
+        	meunId.push(nodes[i].id);
+        }
+        $.ajax({
+            type: "POST",
+            url: "${context_path}/sys/user/addUserMeun",
+            data:{"userId":userId,"meunId":meunId},
+            traditional:true,
+            dataType: "json",
+            success: function(data) {
+            	alert("添加成功");
+            	window.location.href = "${context_path}/sys/user/list";
+            }
+        });
+	}
+</script>
+</HTML>

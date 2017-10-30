@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+   <meta charset="utf-8" />
+   <title>$!pageTitle</title>
+   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+   <meta content="" name="description" />
+   <meta content="Mosaddek" name="author" />
+   #parse("/common/header_resource.html")
+</head>
+<body class="fixed-top">
+	#parse("/common/header.html")
+	<div id="container" class="row-fluid">
+		#parse("/common/menu.html")
+		<div id="main-content">
+			<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<h3 class="page-title"></h3>
+					<ul class="breadcrumb">
+						<li>系统管理<span class="divider">/</span></li>
+						<li class="active">
+							菜单管理
+						</li>
+					</ul>
+				</div>
+			</div>
+            
+            <!-- BEGIN PAGE CONTENT-->
+            <div class="row-fluid">
+            	<div class="span12">
+	                <!-- BEGIN EXAMPLE TABLE widget-->
+	                <div class="widget">
+	                    <div class="widget-body">
+	                    	<form action="${context_path}/sys/meun/list" id="sys_meun_list_search_form" class="hidden-phone" method="post">
+                               <div class="input-append search-input-area">
+	                               <input class="search_input" name="meunName" value="$!searchBean.meunName" type="text" placeholder="请输入菜单名称" >
+	                               <input class="search_input" name="meunClass" value="$!searchBean.meunClass" type="text" placeholder="请输入菜单样式名称" >
+	                               <input class="search_input" name="meunUrl" value="$!searchBean.meunUrl" type="text" placeholder="请输入菜单URL" >
+	                               <input class="search_input" name="parentName" value="$!searchBean.parentName" type="text" placeholder="请输入父菜单名称" >
+                               	   <input type="hidden" name="page" value="$!searchResultList.paginator.page" id="sys_meun_list_search_page" />
+                               	   <input type="hidden" name="pageSize" value="$!searchResultList.paginator.limit"/>
+                                   <button class="btn" style="margin-left: 1px;" onclick="$('#sys_meun_list_search_page').val(1);" type="submit"><i class="icon-search search_button"></i> </button>
+                               </div>
+                           	</form>
+                           	<div class="btn-group">
+							   	<a class="btn btn-primary" id="sys_meun_add">添加菜单<i class="icon-plus"></i></a>&nbsp;
+							</div>
+	                        <table class="table table-striped table-bordered" style="margin-top:10px;" id="sample_1_nopage">
+	                            <thead>
+	                            <tr>
+	                                <th>标识</th>
+	                                <th>菜单名称</th>
+	                                <th>父菜单名称</th>
+	                                <th>菜单样式名称</th>
+	                                <th>菜单URL</th>
+	                                <th>排序号</th>
+	                                <th>创建时间</th>
+	                                <th>操作</th>
+	                            </tr>
+	                            </thead>
+	                            <tbody>
+                            		#foreach($meun in $searchResultList)
+                           				<tr>
+		                            		#if($!meun.parentId == 0)
+				                                <td>父菜单</td>
+				                            #else
+				                                <td></td>
+		                            		#end
+			                                <td>$!meun.meunName</td>
+			                                <td>$!meun.parentName</td>
+			                                <td>$!meun.meunClass</td>
+			                                <td>$!meun.meunUrl</td>
+			                                <td>$!meun.orderNum</td>
+                           	   			  	<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!meun.createdDate)</td>
+			                                <td>
+			                                	<a href="javascript:del('$!{meun.id}')">删除</a>
+			                                	<a href="javascript:edit('$!{meun.id}','$!{meun.parentId}','$!{meun.meunName}','$!{meun.meunClass}','$!{meun.meunUrl}','$!{meun.orderNum}')">修改</a>
+			                                </td>
+			                            </tr>
+		                        	#end
+	                            </tbody>
+	                        </table>
+	                         #parse("/common/pager.html")
+	                    </div>
+	                </div>
+	                <!-- END EXAMPLE TABLE widget-->
+                </div>
+            </div>
+         </div>
+         <!-- END PAGE CONTAINER-->
+      </div>
+      <!-- END PAGE -->  
+   </div>
+   
+   <div id="sys_meun_save_div" class="modal hide fade" tabindex="-1" aria-labelledby="sys_meun_save_label" role="dialog" aria-hidden="true">  
+       <div class="modal-header">  
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>  
+           <h3 id="sys_meun_save_label">菜单-编辑</h3>  
+       </div>  
+       <div class="modal-body">  
+          <div class="widget green">
+          	<div class="widget-body">
+          		<form action="#" name="sys_meun_form" class="form-horizontal" id="sys_meun_save_form">
+          			<div class="control-group">
+                         <label class="control-label">菜单名称:</label>
+                         <div class="controls">
+                             <input type="text" id="meun_name" name="meunName" must="1" class="input-large">
+                             <span class="help-inline">*</span>
+                         </div>
+                    </div>
+          			<div class="control-group">
+                         <label class="control-label">菜单样式名称:</label>
+                         <div class="controls">
+                             <input type="text" id="meun_class" name="meunClass" must="1" autocomplete="off" class="input-large">
+                         </div>
+                    </div>
+          			<div class="control-group">
+                         <label class="control-label">菜单URL:</label>
+                         <div class="controls">
+                             <input type="text" id="meun_url" name="meunUrl" must="1" autocomplete="off" class="input-large">
+                         </div>
+                    </div>
+          			<div class="control-group">
+                         <label class="control-label">排序号:</label>
+                         <div class="controls">
+                             <input type="text" id="order_num" name="orderNum" must="1" autocomplete="off" class="input-large">
+                         </div>
+                    </div>
+          			<div class="control-group">
+                         <label class="control-label">父菜单名称:</label>
+                         <div class="controls">
+                             <select id="parent_id" name="parentId">
+                             	<option value = "">请选择</option>
+                             	#foreach($parent in $parentList)
+                             		<option value="$!parent.id">$!parent.meunName</option>
+                             	#end
+                             </select>
+                         </div>
+                    </div>
+                    <input type="hidden" name="id" id="sys_meun_id" />
+          		</form>
+          	</div>
+          </div>
+       </div>  
+       <div class="modal-footer">
+           <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>  
+           <button class="btn btn-primary" id="sys_meun_save_btn">保存</button>  
+       </div>  
+   </div>
+   
+   <div id="sys_meun_removeconfirm_div" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="msgBoxModalLabel" aria-hidden="true">  
+		<div class="modal-header">  
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>  
+		    <h3 id="msgBoxModalLabel">你确认要删除此菜单吗？</h3>  
+		</div>         
+		<div class="modal-footer">  
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>  
+		    <button class="btn btn-primary" id="sys_meun_removeconfirm_btn">确定</button>  
+		</div>
+		<input type="hidden" id="sys_meun_id" />
+	</div>
+   <!-- BEGIN FOOTER -->
+   #parse("/common/footer_resource.html")
+<script type="text/javascript">
+   	$(function(){
+   		$("#sys_meun_removeconfirm_btn").click(function (){
+   			$.ajax({
+				type : "POST",
+				data : {"id" : $("#sys_meun_id").val()},
+				url : "${context_path}/sys/meun/del",
+				dataType : "json",
+				success : function(data) {
+					if (data.code == "0") {
+						$("#sys_meun_removeconfirm_div").modal("hide");
+						alert("删除成功!");
+						window.location.href = "${context_path}/sys/meun/list";
+					} else {
+						alert(data.msg);
+					}
+				},
+				error : function(data) {
+					alert("发生异常，请联系管理员!");
+				}
+			});
+   		});
+   		
+   		$("#sys_meun_save_btn").click(function (){
+   			$.ajax({
+				type : "POST",
+				data :{"id":$("#sys_meun_id").val(),"parentId":$("#parent_id").val(),"meunName":$("#meun_name").val(),"meunClass":$("#meun_class").val(),"meunUrl":$("#meun_url").val(),"orderNum":$("#order_num").val()},
+				url : "${context_path}/sys/meun/add",
+				dataType : "json",
+				success : function(data) {
+					if (data.code == "0") {
+						$("#sys_meun_save_div").modal("hide");
+						alert("保存成功!");
+						window.location.href = "${context_path}/sys/meun/list";
+					} else {
+						alert(data.msg);
+					}
+				},
+				error : function(data) {
+					alert("发生异常，请联系管理员!");
+				}
+			});
+   		});
+   		
+   		$("#sys_meun_add").click(function (){
+   			$("#sys_meun_save_label").text("菜单-新增");
+   			$("#sys_meun_id").empty();
+   			$("#sys_meun_save_form")[0].reset();
+   			$("#sys_meun_save_div").modal("show");
+   		});
+   	});
+   function jumpPage(page, jumpPage) {
+		$("#sys_meun_list_search_page").val(parseInt(page) + parseInt(jumpPage));
+		$("#sys_meun_list_search_form").submit();
+	}
+
+	function del(id){
+   		$("#sys_meun_id").val(id);
+   		$("#sys_meun_removeconfirm_div").modal("show");
+	}
+	function edit(id,parentId,meunName,meunClass,meunUrl,orderNum){
+		$("#sys_meun_save_label").text("菜单-修改");
+		$("#sys_meun_id").val(id);
+		$("#parent_id").val(parentId);
+		$("#meun_name").val(meunName);
+		$("#meun_class").val(meunClass);
+		$("#meun_url").val(meunUrl);
+		$("#order_num").val(orderNum);
+		$("#sys_meun_save_div").modal("show");
+	}
+</script>
+</body>
+<!-- END BODY -->
+</html>

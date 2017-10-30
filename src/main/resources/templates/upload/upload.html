@@ -1,0 +1,96 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script>
+function validate()
+{
+    var markObj = document.form1.addWM;
+    var filename = document.form1.sfilename.value;
+    if (filename == "")  return false;
+
+    if (filename.toLowerCase().indexOf("http://") > -1)
+    {
+        alert("您必须提供您硬盘上的图片上传！");
+        return false;
+    }
+    //checkfile();
+    
+   
+    if (filename.indexOf(".") > 0)
+    {
+        var ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
+        //ext != ".gif" && ext != ".jpg" && ext != ".jpeg" && 
+        /*if (ext != ".gif" && ext != ".jpg" && ext != ".jpeg" &&ext != ".png" )
+        {
+            alert("对不起，您只能上传 png图像文件！");
+            return false;
+        }*/
+        return true;
+    }
+}
+function     GetQueryString(name)      
+{      
+     var     reg     =   new   RegExp("(^|&)"+     name     +"=([^&]*)(&|$)");      
+     var     r     =     window.location.search.substr(1).match(reg);      
+     if     (r!=null)   return     unescape(r[2]);   return   null;      
+}      
+
+  var maxsize = 500*1024;//500k
+  var errMsg = "上传的附件文件不能超过500k！！！";
+  var tipMsg = "您的浏览器暂不支持计算上传文件的大小，确保上传文件不要超过500k，建议使用IE、FireFox、Chrome浏览器。";
+  var  browserCfg = {};
+  var ua = window.navigator.userAgent;
+  if (ua.indexOf("MSIE")>=1){
+   browserCfg.ie = true;
+  }else if(ua.indexOf("Firefox")>=1){
+   browserCfg.firefox = true;
+  }else if(ua.indexOf("Chrome")>=1){
+   browserCfg.chrome = true;
+  }
+  function checkfile(){
+   
+   try{
+     var obj_file = document.getElementById("fileuploade");
+     if(obj_file.value==""){
+      alert("请先选择上传文件");
+      return false;
+     }
+     var filesize = 0;
+     if(browserCfg.firefox || browserCfg.chrome ){
+      var obj_img = document.getElementById('tempimg');
+      filesize = obj_file.files[0].size;
+      alert(filesize);
+     }else if(browserCfg.ie){
+      var obj_img = document.getElementById('tempimg');
+      obj_img.dynsrc=obj_file.value;
+      filesize = obj_img.fileSize;
+     }else{
+      alert(tipMsg);
+       return false;
+     }
+     if(filesize==-1){
+      alert(tipMsg);
+      return false;
+     }else if(filesize>maxsize){
+      alert(errMsg);
+      return false;
+    }else{
+      return true;
+    }
+   }catch(e){
+    alert(e);
+   }
+  }
+
+</script>
+<body>
+<img id="tempimg" dynsrc="" src="" width="" height="" />
+<form onSubmit="return validate();" name="form1" action="${context_path}/upload/uploadImg" method="post"
+			enctype="multipart/form-data" >
+<input type="hidden" id="obj" name="obj" value=""/>
+<input type=file name="sfilename" id="fileuploade" size=25 class=form/>
+<input type=submit value="  上传  " class=tine>
+</form>
+<script type="text/javascript">
+var obj=GetQueryString("obj");
+document.getElementById("obj").value=obj;
+</script>
+</body>
